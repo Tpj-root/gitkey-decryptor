@@ -519,10 +519,10 @@ function mygit() {
     echo "Switched remote to git@github.com:Tpj-root/${repo_name}"
 
     #open the current dir
-    xdg-open .
+    #xdg-open .
 
     #open the Readme file
-    gedit README.md
+    #gedit README.md
 }
 
 
@@ -545,51 +545,37 @@ add_alias_source() {
 add_alias_source
 
 
-
-
-
-
-
-
-
 #---------------------------------------------------
-# Function: install_jocker
-# Description: Clones your GitHub repo (if not exists),
-#              copies jocker.sh to /usr/local/bin,
-#              and sets execute permission.
+# Function: install_jocker_from_gitkey
+# Description: Uses your existing mygit function to clone
+#              gitkey-decryptor repo, then installs jocker.sh
+#              into /usr/local/bin with execute permission.
 #---------------------------------------------------
 
-install_jocker() {
-    local repo_url="https://github.com/Tpj-root/And_Here_we_Go.git"
+install_jocker_from_gitkey() {
+    local repo_url="https://github.com/Tpj-root/gitkey-decryptor.git"
     local base_dir="$HOME/Desktop/MY_GIT"
-    local target_dir="$base_dir/And_Here_we_Go"
+    local target_dir="$base_dir/gitkey-decryptor"
     local bin_path="/usr/local/bin/jocker.sh"
 
-    echo ">>> Installing jocker.sh from GitHub..."
+    echo ">>> Installing jocker.sh from gitkey-decryptor repo..."
 
-    # Step 1: Clone repo if not already present
-    if [ ! -d "$target_dir/.git" ]; then
-        echo "[CLONE] Cloning repository to $target_dir"
-        #git clone "$repo_url" "$target_dir" || { echo "Clone failed!"; return 1; }
-        mygit https://github.com/Tpj-root/And_Here_we_Go.git || { echo "Clone failed!"; return 1; }
-        
-    else
-        echo "[SKIP] Repo already exists. Pulling latest changes..."
-        (cd "$target_dir" && git pull)
-    fi
+    # Step 1: Clone using your existing mygit function
+    mygit "$repo_url"
 
-    # Step 2: Check for jocker.sh
+    # Step 2: Verify jocker.sh exists
     if [ ! -f "$target_dir/jocker.sh" ]; then
-        echo "[ERROR] jocker.sh not found in repo!"
+        echo "[ERROR] jocker.sh not found in $target_dir"
         return 1
     fi
 
-    # Step 3: Copy and set permission
+    # Step 3: Copy to /usr/local/bin and set permission
     echo "[COPY] Moving jocker.sh to /usr/local/bin"
     sudo cp "$target_dir/jocker.sh" "$bin_path" && sudo chmod +x "$bin_path"
 
     echo ">>> jocker.sh installed successfully at $bin_path"
 }
+
 
 
 install_jocker
