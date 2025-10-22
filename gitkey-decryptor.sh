@@ -470,3 +470,76 @@ echo "Step 8 completed."
 # 9th:add or update the Git remote URL and then test the SSH connection automatically
 git_setup_remote git@github.com:Tpj-root/gitkey-decryptor.git
 
+
+
+#set private key and connect github profiles
+#
+#eval "$(ssh-agent -s)"
+#ssh-add ~/.ssh/id_rsa
+#git config --global user.name "Tpj-root"
+#git config --global user.email "trichy_hackerspace@outlook.com"
+#alias addkey='ssh-add $HOME/Documents/KEY/id_rsa'
+#
+#Check SSH Key Permissions:
+#Ensure that your SSH key has the correct permissions.
+#chmod 600 $HOME/Desktop/IM_FILES/id_rsa
+#
+### git alias
+function gitremote() {
+    local repo="$1"
+    git remote set-url origin "git@github.com:Tpj-root/${repo}"
+    echo "Switched remote to git@github.com:Tpj-root/${repo}"
+}
+##########################################
+# 1 -- > git clone "URL"
+# 2 -- > cd <repo_name>
+# 3 -- > git remote set-url origin "git@github.com:Tpj-root/${repo_name}"
+# 4 -- > xdg-open .
+# 5 -- > gedit README.md
+#
+function mygit() {
+    if [ -z "$1" ]; then
+        echo "Usage: mygit <repository_url>"
+        echo "Example: mygit https://github.com/Tpj-root/PCB_Prototype_Board.git"
+        return 1
+    fi
+
+    cd $HOME/Desktop/MY_GIT
+    local repo_url="$1"
+    local repo_name=$(basename "$repo_url" .git)
+
+    # Clone the repository
+    git clone "$repo_url" || { echo "Failed to clone $repo_url"; return 1; }
+
+    # Navigate into the repository directory
+    cd "$repo_name" || { echo "Failed to cd into $repo_name"; return 1; }
+
+    # Set the remote to SSH
+    git remote set-url origin "git@github.com:Tpj-root/${repo_name}"
+    echo "Switched remote to git@github.com:Tpj-root/${repo_name}"
+
+    #open the current dir
+    xdg-open .
+
+    #open the Readme file
+    gedit README.md
+}
+
+
+mygit https://github.com/Tpj-root/First_Step_Debian.git
+
+mygit https://github.com/Tpj-root/gitkey-decryptor.git
+
+add_alias_source() {
+    local line='source $HOME/Desktop/MY_GIT/First_Step_Debian/alias_run.sh'
+    local rcfile="$HOME/.bashrc"
+
+    # check if already exists
+    grep -Fxq "$line" "$rcfile" || echo "$line" >> "$rcfile"
+    echo "Added source line to $rcfile (if not already present)."
+}
+
+
+add_alias_source
+
+
