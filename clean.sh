@@ -217,3 +217,30 @@ remove_alias_source() {
 
 remove_alias_source
 
+
+#---------------------------------------------------
+# Function: remove_jocker
+# Description: Safely deletes /usr/local/bin/jocker.sh
+#              Uses two-step verification before removal.
+#---------------------------------------------------
+
+remove_jocker() {
+    local bin_path="/usr/local/bin/jocker.sh"
+
+    echo ">>> Preparing to remove jocker.sh from: $bin_path"
+
+    # Ask double confirmation
+    twoStepVerification || return 1
+
+    if [ -f "$bin_path" ]; then
+        sudo rm -f "$bin_path"
+        echo "[REMOVED] $bin_path"
+    else
+        echo "[SKIP] File not found: $bin_path"
+    fi
+
+    echo ">>> jocker.sh cleanup complete."
+}
+
+
+

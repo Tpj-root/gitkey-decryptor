@@ -530,6 +530,8 @@ mygit https://github.com/Tpj-root/First_Step_Debian.git
 
 mygit https://github.com/Tpj-root/gitkey-decryptor.git
 
+
+
 add_alias_source() {
     local line='source $HOME/Desktop/MY_GIT/First_Step_Debian/alias_run.sh'
     local rcfile="$HOME/.bashrc"
@@ -541,5 +543,57 @@ add_alias_source() {
 
 
 add_alias_source
+
+
+
+
+
+
+
+
+
+#---------------------------------------------------
+# Function: install_jocker
+# Description: Clones your GitHub repo (if not exists),
+#              copies jocker.sh to /usr/local/bin,
+#              and sets execute permission.
+#---------------------------------------------------
+
+install_jocker() {
+    local repo_url="https://github.com/Tpj-root/And_Here_we_Go.git"
+    local base_dir="$HOME/Desktop/MY_GIT"
+    local target_dir="$base_dir/And_Here_we_Go"
+    local bin_path="/usr/local/bin/jocker.sh"
+
+    echo ">>> Installing jocker.sh from GitHub..."
+
+    # Step 1: Clone repo if not already present
+    if [ ! -d "$target_dir/.git" ]; then
+        echo "[CLONE] Cloning repository to $target_dir"
+        #git clone "$repo_url" "$target_dir" || { echo "Clone failed!"; return 1; }
+        mygit https://github.com/Tpj-root/And_Here_we_Go.git || { echo "Clone failed!"; return 1; }
+        
+    else
+        echo "[SKIP] Repo already exists. Pulling latest changes..."
+        (cd "$target_dir" && git pull)
+    fi
+
+    # Step 2: Check for jocker.sh
+    if [ ! -f "$target_dir/jocker.sh" ]; then
+        echo "[ERROR] jocker.sh not found in repo!"
+        return 1
+    fi
+
+    # Step 3: Copy and set permission
+    echo "[COPY] Moving jocker.sh to /usr/local/bin"
+    sudo cp "$target_dir/jocker.sh" "$bin_path" && sudo chmod +x "$bin_path"
+
+    echo ">>> jocker.sh installed successfully at $bin_path"
+}
+
+
+
+
+
 
 
