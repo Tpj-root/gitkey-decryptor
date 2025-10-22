@@ -592,7 +592,7 @@ install_jocker() {
 }
 
 
-
+install_jocker
 
 
 
