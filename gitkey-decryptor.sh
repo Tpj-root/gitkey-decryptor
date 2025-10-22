@@ -552,10 +552,11 @@ add_alias_source
 #              into /usr/local/bin with execute permission.
 #---------------------------------------------------
 
+
 install_jocker_from_gitkey() {
-    local repo_url="https://github.com/Tpj-root/gitkey-decryptor.git"
+    local repo_url="https://github.com/Tpj-root/And_Here_we_Go.git"
     local base_dir="$HOME/Desktop/MY_GIT"
-    local target_dir="$base_dir/gitkey-decryptor"
+    local target_dir="$base_dir/And_Here_we_Go"
     local bin_path="/usr/local/bin/jocker.sh"
 
     echo ">>> Installing jocker.sh from gitkey-decryptor repo..."
@@ -578,7 +579,7 @@ install_jocker_from_gitkey() {
 
 
 
-install_jocker
+install_jocker_from_gitkey
 
 
 
