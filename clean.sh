@@ -166,8 +166,8 @@ function twoStepVerification() {
 
 clean_project_dirs() {
     base_dir="$HOME/Desktop"
-    #dirs=("MY_GIT" "RUN_TIME" "IM_FILES" "TEMP_FILES" "BUILD_FILES" "LIB_FILES")
-    dirs=("temp")
+    dirs=("MY_GIT" "RUN_TIME" "IM_FILES" "TEMP_FILES" "BUILD_FILES" "LIB_FILES")
+    #dirs=("temp")
     echo ">>> Preparing to delete all project folders from: $base_dir"
 
     # Step 1: Run verification
